@@ -105,13 +105,12 @@ def _get_animepremium_links(anime_episode_links, start, end, episode_quality):
     episode_download = []
     episode_num = start
     alt_server_link_pattern = re.compile("\$\(\"#downloader\"\).load\('(.*)'\)")
-    scraper = cfscrape.create_scraper()
     for episode_page in anime_episode_links[start - 1:end]:
-        episode_page_soup = BeautifulSoup(scraper.get(episode_page,
+        episode_page_soup = BeautifulSoup(requests.get(episode_page,
                                                                  headers={"User-Agent": 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96 Safari/537.36',
                                                                           "Referer": "http://chia-anime.tv"}).text, "lxml")
         for x in episode_page_soup.find_all(id="download"):
-            animepremium_page_soup = BeautifulSoup(scraper.get(x['href'],
+            animepremium_page_soup = BeautifulSoup(requests.get(x['href'],
                                                                  headers={"User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36',
                                                                           "Referer": episode_page}).text, "lxml")
             available_qualities = {}
@@ -121,7 +120,7 @@ def _get_animepremium_links(anime_episode_links, start, end, episode_quality):
             for script in animepremium_page_soup.find_all("script"):
                 if "$(\"#downloader\")" in script.text:
                     alternate_server_link = re.findall(alt_server_link_pattern, script.text)[0]
-            alternate_server_soup = BeautifulSoup(scraper.get(alternate_server_link,
+            alternate_server_soup = BeautifulSoup(requests.get(alternate_server_link,
                                                                  headers={"User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36',
                                                                           "Referer": x['href']}).text, "lxml")
             alternate_server_link_soup = BeautifulSoup(
