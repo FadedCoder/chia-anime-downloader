@@ -3,7 +3,6 @@ import logging
 import re
 
 import requests
-import cfscrape
 import sys
 from bs4 import BeautifulSoup
 from bs4 import Comment
