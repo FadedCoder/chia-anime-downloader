@@ -45,6 +45,8 @@ Arguments:
 #### Dependencies :
 1. Requests
 2. BeautifulSoup4
+3. LXML
+4. Docopts
 
 Run `pip install -r requirements.txt` for installing dependencies.
   
