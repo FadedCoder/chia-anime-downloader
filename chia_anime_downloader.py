@@ -179,10 +179,12 @@ def _store_results(anime_name, episode_download,
                         downloaded += len(chunk)
                         f.write(chunk)
                         done = int(50 * downloaded / total_length)
+                        done_percentage = round(downloaded/total_length*100, 2)
+                        speed = int((downloaded/(time.clock() - start))/1024)
                         print(
-                            "\rDownloading episode {0}\t\t[{1}{2}] {3} kbps".format(  # noqa
+                            "\rDownloading episode {0}\t\t[{1}{2}] {3}%\t{4} kbps".format(  # noqa
                                 ep_num, '=' * done, ' ' * (50 - done),
-                                int(downloaded/((time.clock() - start)*1024))),
+                                done_percentage, speed),
                             end='')
             print("")
 
